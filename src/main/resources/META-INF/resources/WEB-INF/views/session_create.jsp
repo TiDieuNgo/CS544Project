@@ -38,7 +38,6 @@
 			<p>
 				<label for="counselor">Counselor</label>
 				<form:select path="counselor" id="counselor">
-					<form:option value="None" label="--Select one--" />
 					<form:options path="counselor" items="${counselors}" />
 				</form:select>
 				
@@ -54,7 +53,6 @@
 			<p>
 				<label for="time">Start Time</label>
 				<form:select path="time" id="time" itemValue="time" itemLabel="time">
-					<form:option value="None" label="--Select one--" />
 					<form:options path="time" items="${times}" />
 				</form:select>
 				<form:errors path="time" cssStyle="Color:RED"></form:errors>
@@ -64,7 +62,6 @@
 				<label for="location">Location</label>
 				<form:select path="location" id="location" itemValue="location"
 					itemLabel="location">
-					<form:option value="None" label="--Select one--" />
 					<form:options path="location" items="${locations}" />
 				</form:select>
 				<form:errors path="location" cssStyle="Color:RED"></form:errors>

@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+</script>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,7 +13,7 @@
 <body>
 	<h1>Sessions</h1>
 	<a href="/login">Login</a>
-	
+
 	<form action="">
 		<table>
 			<tr>
@@ -25,23 +27,22 @@
 				<th>Action</th>
 			</tr>
 			<c:forEach var="session" items="${sessions}">
-			<tr>
-				<td>${session.id}</td>
-				<td>${session.date}</td>
-				<td>${session.time}</td>
-				<td>${session.duration}</td>
-				<td>${session.location.building} ${session.location.room}</td>
-				<td>${session.counselor.firstName} ${session.counselor.lastName}</td>
-				<td>${session.capacity}</td>
-				<td>
-				<a href="session_edit/${session.id}">Edit</a>
-					<a href="session_delete/${session.id}">Delete</a>
-				</td>
-			</tr>
+				<tr>
+					<td>${session.id}</td>
+					<td>${session.date}</td>
+					<td>${session.time}</td>
+					<td>${session.duration}</td>
+					<td>${session.location.building}${session.location.room}</td>
+					<td>${session.counselor.firstName}
+						${session.counselor.lastName}</td>
+					<td>${session.capacity}</td>
+					<td><a href="session_edit/${session.id}">Edit</a> 
+					<a href="session_delete/${session.id}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+				</tr>
 			</c:forEach>
 		</table>
 		<div style="float: right">
-					<a class="session_create" href="session_create">Add Session</a>
+			<a class="session_create" href="session_create">Add Session</a>
 		</div>
 	</form>
 </body>

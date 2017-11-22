@@ -8,8 +8,10 @@
 <script type="text/javascript">
 	function validateForm() {
 		var date = document.getElementById("date").value;
+		var id = document.getElementById("id").value;
 		var date_format = /^(19|20)\d{2}\/(0?[1-9]|1[0-2])\/(0?[1-9]|1\d|2\d|3[01])$/;
 
+		alert(id);
 		if (!date.match(date_format)) {
 			alert("Date is invalid! it should be yyyy/mm/dd");
 			return false;
@@ -25,14 +27,13 @@
 <title>Edit Session</title>
 </head>
 <body>
-	<h1>edit session</h1>
-	<h2>Information of Session Id : ${sessionForUpdated.id}</h2>
-
-
+	<h1>Edit session</h1>
+	<h2>Information of Session Id : ${id}</h2>
 	<form:form modelAttribute="sessionForUpdated" method="POST"
 		enctype="multipart/form-data"
-		action="/session_edit/${sessionForUpdated.id}">
+		action="/session_edit/${id}">
 		<div>
+			<form:hidden path="id" id="id" />
 			<p>
 				<label for="capacity">capacity</label>
 				<form:input path="capacity" id="capacity" />
@@ -46,7 +47,7 @@
 						label="${sessionForUpdated.counselor.firstName}" />
 					<form:options path="counselor" items="${counselors}" />
 				</form:select>
-				
+
 				<form:errors path="counselor" cssStyle="Color:RED"></form:errors>
 			</p>
 
@@ -82,10 +83,11 @@
 				<form:input path="duration" id="duration" />
 				<form:errors path="duration" cssStyle="Color:RED"></form:errors>
 			</p>
-			
+
 
 			<p id="buttons">
-				<td><form:button id="btnSubmit" type="submit" onclick="return validateForm();">Update</form:button></td>
+				<td><form:button id="btnSubmit" type="submit"
+						onclick="return validateForm();">Update</form:button></td>
 			</p>
 
 		</div>

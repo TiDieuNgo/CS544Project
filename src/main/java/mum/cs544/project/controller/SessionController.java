@@ -76,6 +76,7 @@ public class SessionController {
 	@RequestMapping(value = { "/session_edit/{id}" }, method = RequestMethod.POST)
 	public String editSession(@Valid @ModelAttribute("sessionForUpdated") Session session, BindingResult bindingresult, Model model, @PathVariable("id") Long id) {
 		if (bindingresult.hasErrors()) {
+			model.addAttribute("id", id);
 			return "session_edit";
 		}
 		sessionService.editSession(session,id);
@@ -88,14 +89,11 @@ public class SessionController {
 	}
 	
 	@RequestMapping(value = "/session_create", method = RequestMethod.POST)
-	public String addPlayer(@Valid @ModelAttribute("addSession") Session session, BindingResult bindingresult, Model model, HttpServletRequest request,
-			RedirectAttributes redirectAttributes) {
+	public String addPlayer(@Valid @ModelAttribute("addSession") Session session, BindingResult bindingresult, Model model) {
 		if (bindingresult.hasErrors()) 
 			return "session_create";
 
 		sessionService.addSession(session);
-		redirectAttributes.addFlashAttribute("session", session);
-		//redirectAttributes.addFlashAttribute("message", "Added successfully.");
 		return "redirect:/sessions";
 	}
 	

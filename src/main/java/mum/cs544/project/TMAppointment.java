@@ -10,4 +10,3 @@ public class TMAppointment {
 		SpringApplication.run(TMAppointment.class, args);
 	}
 }
-	
