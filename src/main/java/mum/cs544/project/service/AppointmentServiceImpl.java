@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import mum.cs544.project.entity.Appointment;
 import mum.cs544.project.entity.Person;
-import mum.cs544.project.entity.Session;
 import mum.cs544.project.repository.AppointmentRepository;
 import mum.cs544.project.repository.SessionRepository;
 
@@ -20,24 +19,33 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	@Autowired
 	private SessionRepository sessionRepository;
 
+	@Autowired
+	private JMSService jmsSender;
+	
 	@Override
 	public boolean createAppointment(Appointment appt) {
-		Session session = appt.getSession();
-		session.setCapacity(session.getCapacity() - 1);
-
-		if (appointmentRepository.save(appt) != null || sessionRepository.save(session) != null) {
+		Appointment apptRet = appointmentRepository.save(appt); 
+		if (apptRet != null){
+			
+			//trigger sending email through JMS ActiveMQ server
+			String str = "ETHER|1|" + apptRet.getId();
+			System.out.println("Book an appointment, trigger JMS email sending ["+str+"]");
+			jmsSender.sendJMSMessage(str);
+			
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public boolean deleteAppointment(Appointment appt) {
-		Session session = appt.getSession();
-		session.setCapacity(session.getCapacity() + 1);
-
-		appointmentRepository.delete(appt);
-		sessionRepository.delete(session);
+	public boolean deleteAppointment(long id) {
+		//trigger sending email through JMS ActiveMQ server
+		String str = "ETHER|0|" + id;
+		System.out.println("Cancel an appointment, trigger JMS email sending ["+str+"]");
+		jmsSender.sendJMSMessage(str);
+		
+		appointmentRepository.delete(id);
+		
 		return false;
 	}
 	
@@ -59,6 +67,11 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	@Override
 	public Appointment findOne(Long id) {
 		return appointmentRepository.findOne(id);
+	}
+
+	@Override
+	public List<Appointment> findBySession(Long id) {
+		return appointmentRepository.findBySession(sessionRepository.findOne(id));
 	}
 
 }
